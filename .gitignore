@@ -1,0 +1,6 @@
+/.vscode
+/.cargo
+target
+compete.toml
+rust-toolchain
+template-cargo-lock.toml
