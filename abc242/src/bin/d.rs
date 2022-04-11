@@ -1,35 +1,31 @@
-use proconio::input;
-use proconio::marker::Chars;
+use proconio::marker::*;
+use proconio::{fastout, input};
 
+fn f(t: usize, k: usize, s: &[char]) -> char {
+  if t == 0 {
+    s[k as usize]
+  } else if k == 0 {
+    go(s[0], t)
+  } else {
+    go(f(t - 1, k / 2, s), 1 + k % 2)
+  }
+}
+
+// sからx進んだ文字を返す
+fn go(s: char, x: usize) -> char {
+  let tmp = vec!['A', 'B', 'C'];
+  let idx = s as usize - 'A' as usize;
+  tmp[(idx + x as usize) % 3]
+}
+
+#[fastout()]
 fn main() {
   input! {
     s: Chars,
     q: usize,
-    tk: [(i128,i128);q],
+    tks: [(usize,Usize1);q],
   };
-  for i in 0..q {
-    let mut mods = vec![];
-    let mut now_t = tk[i].0;
-    if now_t > 60 as i128 {
-      now_t = 60 + (now_t - 60) % 3;
-    }
-    let mut now_k = tk[i].1 - 1;
-    for j in 0..now_t {
-      mods.push(now_k % 2);
-      now_k /= 2;
-    }
-    let tmp = vec!['A', 'B', 'C'];
-    let mut ans: usize = tmp.iter().position(|&r| r == s[now_k as usize]).unwrap();
-    let m = mods.len();
-    for j in 0..m {
-      if mods[m - 1 - j] == 0 {
-        ans = (ans + 1) % 3;
-      } else {
-        ans = (ans + 2) % 3;
-      }
-      now_t -= 1;
-    }
-
-    println!("{}", tmp[ans]);
+  for &(t, k) in tks.iter() {
+    println!("{}", f(t, k, &s));
   }
 }

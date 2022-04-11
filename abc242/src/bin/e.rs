@@ -1,7 +1,9 @@
 use proconio::input;
+use proconio::marker::Chars;
 
 fn main() {
-  input!{
-    n: i32,
+  input! {
+    t: usize,
+    cases: [(usize,Chars);t]
   };
 }
